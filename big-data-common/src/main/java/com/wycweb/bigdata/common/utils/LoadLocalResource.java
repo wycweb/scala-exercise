@@ -1,4 +1,4 @@
-package com.wycweb.bigdata.framework.common.utils;
+package com.wycweb.bigdata.common.utils;
 
 
 import java.io.IOException;

@@ -1,6 +1,6 @@
-package com.wycweb.bigdata.framework.config;
+package com.wycweb.bigdata.common.config;
 
-import com.wycweb.bigdata.framework.common.utils.LoadLocalResource;
+import com.wycweb.bigdata.common.utils.LoadLocalResource;
 import org.apache.spark.SparkConf;
 import org.apache.spark.sql.SparkSession;
 
