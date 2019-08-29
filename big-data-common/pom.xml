@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.wycweb.bigdata</groupId>
-    <artifactId>big-data-framework</artifactId>
+    <artifactId>big-data-common</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
