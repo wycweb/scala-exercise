@@ -7,14 +7,15 @@ import org.apache.spark.sql.SparkSession;
 import java.util.Properties;
 
 public class BigDataEnvConfig {
-    private LoadLocalResource config = new LoadLocalResource();
-    private Properties properties = config.getConfig("/env-conf.properties");
+    private static LoadLocalResource config = new LoadLocalResource();
+    private static Properties properties = config.getConfig("/env-conf.properties");
 
     /**
      * 配置spark sql，获得sparksession
+     *
      * @return sparksession
      */
-    public SparkSession getSparksession() {
+    public static SparkSession getSparksession() {
         SparkConf sparkConf = new SparkConf();
         sparkConf.set("spark.sql.broadcastTimeout", "600")
                 .set("spark.debug.maxToStringFields", "500")
@@ -24,7 +25,7 @@ public class BigDataEnvConfig {
                 .set("spark.oozie.action.rootlogger.log.level", "DEBUG")
                 .set("spark.sql.parquet.binaryAsString", "true")
                 .set("hive.exec.dynamic.partition", "true")
-                .set("hive.exec.dynamic.partition.mode", "nonstrict")
+                .set("hive.exec.dynamic.partition.mode", "nonstrict")   //设置开启hive动态分区
                 .set("spark.task.maxFailures", "5")
                 .set("spark.sql.hive.convertMetastoreParquet", "false")
                 .set("fs.defaultFS", properties.getProperty("hadoop.fs.defaultFS"));
