@@ -15,14 +15,17 @@ object RddFunctionStudy {
   /**
     * 使用parallelize创建RDD 也 可以使用makeRDD来创建RDD。
     * 通过查看源码可以发现，makeRDD执行的时候，也是在调用parallelize函数，二者无区别。
+    *
     * 通过 .textFile 可以通过文件读取项目路径 和 hdfs 文件路径
+    *
     * makeRDD 和 parallelize 第二个参数为处理的并行度数量，
     * 不给定时，默认值为 通过
     * conf.getInt("spark.default.parallelism", math.max(totalCoreCount.get(), 2)) 获取
     * 即 获取 spark.default.parallelism 参数值
     * 当参数值存在时，使用 spark.default.parallelism 配置的参数
     * 当参数不存在时，比较系统总共可用核数 和 2 ，哪个大使用哪个
-    * saveRDD 函数存储的数据文本数量，取决于 运行的并行度
+    *
+    * saveRDD 函数存储的分区数，即数据文本数量，取决于 运行的并行度
     */
   def main(args: Array[String]): Unit = {
 
