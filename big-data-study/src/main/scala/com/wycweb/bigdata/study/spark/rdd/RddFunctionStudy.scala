@@ -2,17 +2,25 @@ package com.wycweb.bigdata.study.spark.rdd
 
 import com.wycweb.bigdata.common.config.BigDataEnvConfig
 
+import scala.util.parsing.json.JSON
+
 /**
   * RDD操作常见函数测试
   */
 object RddFunctionStudy {
 
   private val sparkSession = BigDataEnvConfig.getSparksession
+  private val sc = sparkSession.sparkContext
 
   def main(args: Array[String]): Unit = {
 
-    val wordRDD = sparkSession.sparkContext
-      .parallelize(Array("spark", "scala", "scala", "java", "java", "java"))
+    //使用parallelize创建RDD 也 可以使用makeRDD来创建RDD
+    //    val wordRDD = sc.parallelize(Array("spark", "scala", "scala", "java", "java", "java"))
+    //      .map(word => (word, 1))
+    //      .reduceByKey(_ + _)
+
+    //使用mdkeRDD来创建RDD
+    val wordRDD = sc.makeRDD(Array("spark", "scala", "scala", "java", "java", "java"))
       .map(word => (word, 1))
       .reduceByKey(_ + _)
 
@@ -23,20 +31,21 @@ object RddFunctionStudy {
     val mapValues = wordRDD.mapValues(x => x + 1) //对键值对rdd里的value进行相应的操作
 
 
-    val joinRDD = sparkSession.sparkContext.parallelize(
+    val joinRDD = sc.parallelize(
       Array(("spark", "good"), ("scala", "wonderful"))
     )
 
     //将key相同的关联在一起
-    val joinResult = wordRDD.join(joinRDD)
+    val joinResult = wordRDD.join(joinRDD).collect()
 
     //结果 (scala,(2,wonderful)) (spark,(1,good))
     joinResult.foreach(println)
     demo()
+    jsonDemo()
   }
 
   /**
-    * 求图书的平均销量
+    * @Description 求图书的平均销量
     */
   def demo(): Unit = {
 
@@ -47,8 +56,8 @@ object RddFunctionStudy {
       ("hadoop", 4),
       ("spark", 6)
     )
-    val rdd = sparkSession.sparkContext
-      .parallelize(rddArray)
+
+    val rdd = sc.parallelize(rddArray)
 
     val result = rdd.mapValues(x => (x, 1))
       .reduceByKey((x, y) => (x._1 + y._1, x._2 + y._2))
@@ -61,5 +70,22 @@ object RddFunctionStudy {
       * (hadoop,5)
       */
     result.foreach(println)
+  }
+
+  /**
+    * @Description 读取json格式的数据并通过JSON.parseFull函数解析json格式数据
+    */
+  def jsonDemo(): Unit = {
+    val jsonStr = sc.textFile("file:///Users/wangyichao/Desktop/people.json")
+
+    val result = jsonStr.map(s => JSON.parseFull(s))
+
+    result.foreach({ r =>
+      r match {
+        case Some(map: Map[String, Any]) => println(map)
+        case None => println("Parsing failed")
+        case other => println("Unknown data structure:" + other)
+      }
+    })
   }
 }
