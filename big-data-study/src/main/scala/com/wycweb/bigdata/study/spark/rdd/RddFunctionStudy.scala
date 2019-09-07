@@ -18,12 +18,18 @@ object RddFunctionStudy {
     *
     * 通过 .textFile 可以通过文件读取项目路径 和 hdfs 文件路径
     *
-    * makeRDD 和 parallelize 第二个参数为处理的并行度数量，
+    * makeRDD 和 parallelize 第二个参数为处理的并行度数量
     * 不给定时，默认值为 通过
     * conf.getInt("spark.default.parallelism", math.max(totalCoreCount.get(), 2)) 获取
     * 即 获取 spark.default.parallelism 参数值
     * 当参数值存在时，使用 spark.default.parallelism 配置的参数
     * 当参数不存在时，比较系统总共可用核数 和 2 ，哪个大使用哪个
+    *
+    * 通过.textFile 第二个参数为处理的并行度数量（textFile对数据切分规则和hadoop对文件切分规则一致）
+    * 不给定时，默认值为取 conf.getInt("spark.default.parallelism", math.min(totalCoreCount.get(), 2))
+    * 即参数不存在时，比较系统总共可用核数 和 2 ，哪个小使用哪个，但是不一定是分区数，取决于hadoop读取文件时的分片规则
+    * 查看源码可发现，底层调用的是 hadoopFile，因此 假设参数默认值为 2
+    * 经过hadoop切片处理，会经过hadoop对文件进行切分，假如数据为5条，经过hadoop切片会分成 2 2 1 条数据
     *
     * saveRDD 函数存储的分区数，即数据文本数量，取决于 运行的并行度
     */
