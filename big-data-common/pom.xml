@@ -16,6 +16,7 @@
         <scala.version>2.11.8</scala.version>
         <scala.binary.version>2.11</scala.binary.version>
         <spark.version>2.3.3</spark.version>
+        <mysql.connector.version>8.0.22</mysql.connector.version>
         <hadoop.version>2.7.7</hadoop.version>
         <maven.plugins.version>3.1.0</maven.plugins.version>
     </properties>
@@ -48,22 +49,28 @@
             <artifactId>spark-sql_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
+        <!-- MySQL JDBC连接驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.connector.version}</version>
+        </dependency>
 
     </dependencies>
 
-    <!-- 发布项目的配置 -->
-    <distributionManagement>
-        <repository>
-            <id>bigdata-releases</id>
-            <name>user release version</name>
-            <url>http://maven.wycweb.com/repository/bigdata-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>bigdata-snapshots</id>
-            <name>user snapshots version</name>
-            <url>http://maven.wycweb.com/repository/bigdata-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+<!--    &lt;!&ndash; 发布项目的配置 &ndash;&gt;-->
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>bigdata-releases</id>-->
+<!--            <name>user release version</name>-->
+<!--            <url>http://maven.wycweb.com/repository/bigdata-releases/</url>-->
+<!--        </repository>-->
+<!--        <snapshotRepository>-->
+<!--            <id>bigdata-snapshots</id>-->
+<!--            <name>user snapshots version</name>-->
+<!--            <url>http://maven.wycweb.com/repository/bigdata-snapshots/</url>-->
+<!--        </snapshotRepository>-->
+<!--    </distributionManagement>-->
 
     <build>
         <plugins>
