@@ -1,14 +1,16 @@
 -- auto-generated definition
 create table attendance
 (
-    username          text null,
-    department        text null,
-    user_id           text null,
-    date              text null,
-    after_work_time   text null,
-    after_work_result text null
+    username          varchar(64) null,
+    department        varchar(64) null,
+    user_id           varchar(64) null,
+    date              varchar(64) null,
+    status            varchar(64),
+    after_work_time   varchar(64) null,
+    after_work_result varchar(64) null
 );
 
+select count(*) from attendance;
 select username,
        user_id,
        department,
@@ -21,9 +23,7 @@ select username,
            end as xiaban,
        count(*)
 from attendance
-where date not like '%星期日'
-  and date not like '%星期六'
+where status != '休息'
   and after_work_result = '正常'
-group by xiaban, user_id, username,department
+group by xiaban, user_id, username, department
 having xiaban is not null;
-
